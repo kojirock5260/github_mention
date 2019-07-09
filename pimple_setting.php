@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 /*
  * Created by PhpStorm.
  * User: yudai_fujita
@@ -19,7 +21,7 @@ use Maknz\Slack\Client as SlackClient;
 use Pimple\Container;
 
 if (!file_exists(__DIR__ . '/config/setting.ini')) {
-    throw new \LogicException("setting.ini not found");
+    throw new \LogicException('setting.ini not found');
 }
 
 $iniSetting = parse_ini_file(__DIR__ . '/config/setting.ini', true);
@@ -44,7 +46,7 @@ $container['slack_message'] = function () use ($iniSetting) {
  * @return \Kojirock5260\GithubMention\Message\NotifierInterface
  */
 $container['notifier'] = function ($c) use ($iniSetting) {
-    switch ($iniSetting['chat_service']) {
+    switch ($iniSetting['general']['chat_service']) {
         case 'slack':
             $notifier = new SlackNotifier($c['slack_message'], $c['message_maker']);
             break;
@@ -56,7 +58,7 @@ $container['notifier'] = function ($c) use ($iniSetting) {
             );
             break;
         default:
-            throw new \InvalidArgumentException("invalid chat service {$iniSetting['chat_service']}");
+            throw new \InvalidArgumentException("invalid chat service {$iniSetting['general']['chat_service']}");
     }
 
     return $notifier;
@@ -85,10 +87,12 @@ $container['github_webhook_parameter'] = function () {
  */
 $container['message_mention'] = function () use ($iniSetting) {
     return new Mention(
-        $iniSetting[$iniSetting['chat_service']]['mention_engineers'],
-        $iniSetting[$iniSetting['chat_service']]['mention_designers'],
-        $iniSetting[$iniSetting['chat_service']]['mention_planners'],
-        $iniSetting['github']['pull_request_auto_mention_ignore']
+        $iniSetting[$iniSetting['general']['chat_service']]['mention_engineers'],
+        $iniSetting[$iniSetting['general']['chat_service']]['mention_designers'],
+        $iniSetting[$iniSetting['general']['chat_service']]['mention_planners'],
+        $iniSetting['general']['start_time'],
+        $iniSetting['general']['end_time'],
+        $iniSetting['github']['pull_request_auto_mention_ignore'],
     );
 };
 
@@ -101,7 +105,7 @@ $container['body_maker'] = function ($c) use ($iniSetting) {
     return new BodyMaker(
         $c['github_webhook_parameter'],
         $c['message_mention'],
-        $iniSetting[$iniSetting['chat_service']]['pull_request_image']
+        $iniSetting[$iniSetting['general']['chat_service']]['pull_request_image']
     );
 };
 

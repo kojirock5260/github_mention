@@ -29,22 +29,42 @@ class Mention
     private $planners;
 
     /**
+     * @var string
+     */
+    private $startTime;
+
+    /**
+     * @var string
+     */
+    private $endTime;
+
+    /**
      * @var array
      */
     private $pullRequestAutoMentionIgnore;
 
     /**
      * Mention constructor.
-     * @param array $engineers
-     * @param array $designers
-     * @param array $planners
-     * @param array $pullRequestAutoMentionIgnore
+     * @param array  $engineers
+     * @param array  $designers
+     * @param array  $planners
+     * @param string $startTime
+     * @param string $endTime
+     * @param array  $pullRequestAutoMentionIgnore
      */
-    public function __construct(array $engineers, array $designers, array $planners, array $pullRequestAutoMentionIgnore)
-    {
+    public function __construct(
+        array  $engineers,
+        array  $designers,
+        array  $planners,
+        string $startTime,
+        string $endTime,
+        array  $pullRequestAutoMentionIgnore
+    ) {
         $this->engineers                     = $engineers;
         $this->designers                     = $designers;
         $this->planners                      = $planners;
+        $this->startTime                     = $startTime;
+        $this->endTime                       = $endTime;
         $this->pullRequestAutoMentionIgnore  = $pullRequestAutoMentionIgnore;
     }
 
@@ -74,6 +94,10 @@ class Mention
      */
     public function addMention(array $mentionList, string $targetString): array
     {
+        if (!$this->isAvailableTime()) {
+            return $mentionList;
+        }
+
         // 指定の文章にメンションを書いているかどうかを調べる
         $pattern = implode('|', $this->getGithubMentionList());
         preg_match_all("/{$pattern}/", $targetString, $matches);
@@ -129,6 +153,10 @@ class Mention
      */
     public function replaceMentionGithub2Chat(string $comment): string
     {
+        if (!$this->isAvailableTime()) {
+            return '';
+        }
+
         $githubMention = $this->getGithubMentionList();
         $targetMention = array_values($this->getAllMentionList());
 
@@ -163,7 +191,7 @@ class Mention
      * @param array $mentionList
      * @return array
      */
-    private function compilePullRequestAutoMentionIgnore(array $mentionList): array
+    public function compilePullRequestAutoMentionIgnore(array $mentionList): array
     {
         // 自動メンション除外リストにある名前を削除
         foreach ($this->pullRequestAutoMentionIgnore as $ignoreName) {
@@ -173,5 +201,17 @@ class Mention
         }
 
         return $mentionList;
+    }
+
+    /**
+     * 有効な時間どうか.
+     * @return bool
+     */
+    public function isAvailableTime(): bool
+    {
+        $currentTime = \Carbon\Carbon::now();
+        $startTime   = \Carbon\Carbon::createFromTimeString($this->startTime, 'Asia/Tokyo');
+        $endTime     = \Carbon\Carbon::createFromTimeString($this->endTime, 'Asia/Tokyo');
+        return $currentTime->between($startTime, $endTime);
     }
 }

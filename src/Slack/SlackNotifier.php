@@ -41,8 +41,7 @@ class SlackNotifier implements NotifierInterface
         $body  = $this->messageMaker->getBody();
 
         if (strlen($title) === 0) {
-            echo 'no title';
-            exit;
+            throw new \LogicException('title is 0 length');
         }
 
         $this->message->attach([

@@ -195,8 +195,8 @@ class BodyMaker
     {
         $comment = $this->parameter->getComment();
 
-        if (!strlen($comment)) {
-            // コメントがあればつける
+        if (strlen($comment) === 0) {
+            // コメントがなければつけない
             return $bodyString;
         }
 

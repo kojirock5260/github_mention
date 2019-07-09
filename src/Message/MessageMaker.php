@@ -59,7 +59,7 @@ class MessageMaker
     /**
      * メッセージを作成する.
      */
-    protected function makeMessage(): void
+    private function makeMessage(): void
     {
         $this->title = $this->titleMaker->getTitleString();
         $this->body  = $this->bodyMaker->getBodyString();

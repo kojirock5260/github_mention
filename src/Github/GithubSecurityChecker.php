@@ -9,9 +9,10 @@ class GithubSecurityChecker
     /**
      * github webhook時のsignatureチェック.
      * @param string $secret
+     * @param string $signature
      * @return bool
      */
-    public static function isValid(string $secret): bool
+    public static function isValid(string $secret, string $signature): bool
     {
         // Signatureの存在確認
         $headers = getallheaders();
@@ -21,7 +22,7 @@ class GithubSecurityChecker
         }
 
         // Signatureの情報を取得
-        list($algo, $hash) = explode('=', $_SERVER['HTTP_X_HUB_SIGNATURE'], 2) + ['', ''];
+        list($algo, $hash) = explode('=', $signature, 2) + ['', ''];
 
         // SecretKeyとSignatureの突き合わせ
         $raw  = file_get_contents('php://input');

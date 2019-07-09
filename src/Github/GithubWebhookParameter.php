@@ -20,36 +20,27 @@ class GithubWebhookParameter
 
     /**
      * GithubWebhookParameter constructor.
-     * @param string $param_json
+     * @param string $paramJson
      */
-    public function __construct($param_json)
+    public function __construct($paramJson)
     {
-        $this->params = json_decode($param_json, true);
+        $this->params = json_decode($paramJson, true);
     }
 
     /**
      * レポジトリ名を取得.
      * @return string
      */
-    public function getRepositoryName():string
+    public function getRepositoryName(): string
     {
         return $this->params['repository']['name'];
-    }
-
-    /**
-     * ブランチ名を取得.
-     * @return string
-     */
-    public function getBranchName():string
-    {
-        return substr($this->params['ref'], 11);
     }
 
     /**
      * レポジトリのラベルを取得.
      * @return string
      */
-    public function getRepositoryLabel():string
+    public function getRepositoryLabel(): string
     {
         return "【{$this->getRepositoryName()}】";
     }
@@ -78,7 +69,7 @@ class GithubWebhookParameter
      */
     public function isMerged(): bool
     {
-        return isset($this->params['pull_request']['merged']);
+        return $this->params['pull_request']['merged'];
     }
 
     /**

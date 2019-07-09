@@ -8,4 +8,6 @@
     <exclude-pattern>vendor/</exclude-pattern>
     <exclude-pattern>public/</exclude-pattern>
     <exclude-pattern>tmp/</exclude-pattern>
+    <exclude-pattern>src/Test</exclude-pattern>
+    <exclude-pattern>coverage/</exclude-pattern>
 </ruleset>

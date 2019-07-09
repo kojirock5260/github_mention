@@ -4,3 +4,5 @@ tmp/*
 .idea/*
 .php_cs.cache
 config/setting.ini
+coverage/*
+.phpunit.result.cache

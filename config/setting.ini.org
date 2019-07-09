@@ -3,7 +3,8 @@ token                              = "xxxxxxxxxxxxxxxxx"
 room_id                            = "xxxxxxxx"
 pull_request_image                 = "[preview id=xxxxxxxxxx ht=150]"
 mention_engineers[xxxxxx]          = "[To:xxxxxx] xxxxxxさん"
-mention_planners[xxxxxxx]          = "[To:xxxxxx] xxxxxxさん"
+mention_planners[xxxxxx]           = "[To:xxxxxx] xxxxxxさん"
+mention_designers[xxxxxx]          = "[To:xxxxxx] xxxxxxさん"
 
 [slack]
 hook_url                           = "https://hooks.slack.com/services/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -12,7 +13,8 @@ link_names                         = 1
 unfurl_links                       = 1
 pull_request_image                 = ":tada: :tada: :tada: :tada: :tada:"
 mention_engineers[xxxxxx]          = "<@xxxxxxxxx>"
-mention_planners[xxxxxxx]          = "<@xxxxxxxxx>"
+mention_planners[xxxxxx]           = "<@xxxxxxxxx>"
+mention_designers[xxxxxx]          = "<@xxxxxxxxx>"
 
 [github]
 secret_key                         = "xxxxxxxxxxxxxxxxxxxx"
@@ -20,3 +22,5 @@ pull_request_auto_mention_ignore[] = "xxxxxxx"
 
 [general]
 chat_service = slack
+start_time   = 10:00:00
+end_time     = 19:00:00

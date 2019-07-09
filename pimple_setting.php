@@ -18,6 +18,10 @@ use Kojirock5260\GithubMention\Slack\SlackNotifier;
 use Maknz\Slack\Client as SlackClient;
 use Pimple\Container;
 
+if (!file_exists(__DIR__ . '/config/setting.ini')) {
+    throw new \LogicException("setting.ini not found");
+}
+
 $iniSetting = parse_ini_file(__DIR__ . '/config/setting.ini', true);
 $container  = new Container();
 

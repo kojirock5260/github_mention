@@ -3,3 +3,4 @@ vendor/*
 tmp/*
 .idea/*
 .php_cs.cache
+config/setting.ini

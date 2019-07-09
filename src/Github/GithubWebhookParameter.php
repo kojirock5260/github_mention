@@ -31,7 +31,7 @@ class GithubWebhookParameter
      * レポジトリ名を取得.
      * @return string
      */
-    public function getRepositoryName()
+    public function getRepositoryName():string
     {
         return $this->params['repository']['name'];
     }
@@ -40,7 +40,7 @@ class GithubWebhookParameter
      * ブランチ名を取得.
      * @return string
      */
-    public function getBranchName()
+    public function getBranchName():string
     {
         return substr($this->params['ref'], 11);
     }
@@ -49,7 +49,7 @@ class GithubWebhookParameter
      * レポジトリのラベルを取得.
      * @return string
      */
-    public function getRepositoryLabel()
+    public function getRepositoryLabel():string
     {
         return "【{$this->getRepositoryName()}】";
     }
